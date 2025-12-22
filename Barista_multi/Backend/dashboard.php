@@ -1,31 +1,7 @@
-<style>
-body {
-  margin: 0;
-  height: 100vh;
-  background: url('/assets/images/coffee-bg.jpg') no-repeat center/cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.box {
-  background: rgba(255,255,255,0.95);
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
-  width: 300px;
-}
-input, button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-}
-</style>
-
-<div class="box">
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /app/login.php");
+    header("Location: /");
     exit;
 }
 ?>
@@ -34,18 +10,49 @@ if (!isset($_SESSION['user_id'])) {
 <html>
 <head>
   <title>Barista Dashboard</title>
+  <style>
+    .admin-bar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(255,255,255,0.95);
+      padding: 16px 22px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      z-index: 9999;
+      min-width: 220px;
+    }
+    .admin-bar h3 {
+      margin: 0 0 12px 0;
+      font-weight: bold;
+    }
+    .admin-bar a {
+      display: block;
+      margin-top: 8px;
+      text-decoration: none;
+      color: #c07a2c;
+      font-weight: 600;
+    }
+  </style>
 </head>
+
 <body>
 
-<h2>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?> 👋</h2>
+<div class="admin-bar">
+  <h3>☕ Barista</h3>
 
-<iframe 
-  src="/" 
-  style="width:100%; height:90vh; border:none;">
-</iframe>
+  <small>Hi, <?php echo htmlspecialchars($_SESSION['username']); ?> 👋</small>
 
-<a href="/app/logout.php">Logout</a>
+  <a href="/app/reservation.html">🍽 Book a Table</a>
+
+  <?php if ($_SESSION['role'] === 'admin'): ?>
+    <a href="/app/admin/index.php">🛠 Admin Portal</a>
+  <?php endif; ?>
+
+  <a href="/app/logout.php">🚪 Logout</a>
+</div>
+
+<?php include 'website.html'; ?>
 
 </body>
 </html>
-</div>
