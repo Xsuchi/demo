@@ -1,3 +1,28 @@
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: url('/assets/images/coffee-bg.jpg') no-repeat center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.box {
+  background: rgba(255,255,255,0.95);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+}
+input, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+}
+</style>
+
+<div class="box">
+
 <?php
 session_start();
 
@@ -33,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (password_verify($password, $hashed)) {
         $_SESSION['user_id'] = $id;
         $_SESSION['username'] = $username;
-        header("Location: /app/dashboard.php");
+        header("Location: /");
         exit;
     } else {
         echo "Invalid username or password";
@@ -43,3 +68,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->close();
 }
 ?>
+</div>

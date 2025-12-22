@@ -12,7 +12,7 @@ services:
       - barista-net
 
   barista-app:
-    build: ./app
+    build: ./Backend
     container_name: barista-app
     depends_on:
       - mysql-db

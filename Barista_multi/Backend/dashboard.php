@@ -1,38 +1,51 @@
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: url('/assets/images/coffee-bg.jpg') no-repeat center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.box {
+  background: rgba(255,255,255,0.95);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+}
+input, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+}
+</style>
+
+<div class="box">
 <?php
 session_start();
-
 if (!isset($_SESSION['user_id'])) {
     header("Location: /app/login.php");
     exit;
 }
-
-$username = $_SESSION['username'];
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-  <title>User Dashboard</title>
+  <title>Barista Dashboard</title>
 </head>
 <body>
 
-<h1>Welcome, <?php echo htmlspecialchars($username); ?> 👋</h1>
+<h2>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?> 👋</h2>
 
-<p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
+<iframe 
+  src="/" 
+  style="width:100%; height:90vh; border:none;">
+</iframe>
 
-<p>
-  <strong>Password:</strong>
-  <span id="pwd">********</span>
-  <button id="show">Show</button>
-</p>
-
-<p><a href="/app/logout.php">Logout</a></p>
-
-<script>
-document.getElementById('show').addEventListener('click', () => {
-  alert("Brother, passwords are hashed for security. They cannot be retrieved.\nUse Reset Password instead.");
-});
-</script>
+<a href="/app/logout.php">Logout</a>
 
 </body>
 </html>
+</div>
