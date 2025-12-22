@@ -1,34 +1,46 @@
 <?php
 session_start();
-if ($_SESSION['role'] !== 'admin') {
-    header("Location: /");
-    exit;
+if (!isset($_SESSION['user_id']) || $_SESSION['username'] !== 'admin') {
+    die("Access denied");
 }
 
-$conn = new mysqli("mysql-db","root","rootpass","barista");
-$result = $conn->query("SELECT * FROM reservations ORDER BY date DESC");
+$conn = new mysqli('mysql-db', 'root', 'rootpass', 'barista');
+$result = $conn->query("SELECT * FROM reservations ORDER BY created_at DESC");
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reservations</title>
+</head>
+
+<body>
 <h2>Table Reservations</h2>
 
 <table border="1" cellpadding="10">
 <tr>
-  <th>ID</th>
-  <th>User</th>
+  <th>Name</th>
+  <th>Phone</th>
   <th>Date</th>
   <th>Time</th>
   <th>People</th>
+  <th>Message</th>
 </tr>
 
-<?php while($row = $result->fetch_assoc()): ?>
+<?php while ($r = $result->fetch_assoc()): ?>
 <tr>
-  <td><?= $row['id'] ?></td>
-  <td><?= htmlspecialchars($row['username']) ?></td>
-  <td><?= $row['date'] ?></td>
-  <td><?= $row['time'] ?></td>
-  <td><?= $row['people'] ?></td>
+  <td><?= htmlspecialchars($r['name']) ?></td>
+  <td><?= htmlspecialchars($r['phone']) ?></td>
+  <td><?= $r['date'] ?></td>
+  <td><?= $r['time'] ?></td>
+  <td><?= $r['people'] ?></td>
+  <td><?= htmlspecialchars($r['message']) ?></td>
 </tr>
 <?php endwhile; ?>
+
 </table>
 
 <br>
 <a href="index.php">⬅ Back</a>
+</body>
+</html>

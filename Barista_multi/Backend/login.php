@@ -19,8 +19,7 @@ if ($conn->connect_error) {
     die("DB connection error");
 }
 
-/* FETCH ROLE ALSO */
-$stmt = $conn->prepare("SELECT id, password, role FROM users WHERE username=?");
+$stmt = $conn->prepare("SELECT id, password FROM users WHERE username=?");
 $stmt->bind_param("s", $username);
 $stmt->execute();
 $stmt->store_result();
@@ -30,7 +29,7 @@ if ($stmt->num_rows === 0) {
     exit;
 }
 
-$stmt->bind_result($id, $hashed, $role);
+$stmt->bind_result($id, $hashed);
 $stmt->fetch();
 
 if (!password_verify($password, $hashed)) {
@@ -38,11 +37,8 @@ if (!password_verify($password, $hashed)) {
     exit;
 }
 
-/* STORE SESSION */
 $_SESSION['user_id'] = $id;
 $_SESSION['username'] = $username;
-$_SESSION['role'] = $role;
 
-/* GO TO DASHBOARD */
 header("Location: /app/dashboard.php");
 exit;
