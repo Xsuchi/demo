@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  nginx-login:
+    build: ./nginx
+    container_name: nginx-login
+    ports:
+      - "8085:80"
+    depends_on:
+      - barista-app
+    networks:
+      - barista-net
+
+  barista-app:
+    build: ./Backend
+    container_name: barista-app
+    depends_on:
+      - mysql-db
+    networks:
+      - barista-net
+
+  mysql-db:
+    image: mysql:8
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    networks:
+      - barista-net
+
+networks:
+  barista-net:
+
+volumes:
+  db_data:

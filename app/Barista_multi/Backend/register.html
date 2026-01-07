@@ -1,0 +1,43 @@
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: url('/assets/images/register.jpg') no-repeat center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.box {
+  background: rgba(255,255,255,0.95);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+}
+input, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+}
+</style>
+
+<div class="box">
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register - Barista Café</title>
+</head>
+<body>
+  <h1>Create Account</h1>
+
+  <form action="/app/register.php" method="post">
+    <input type="text" name="username" placeholder="Choose username" required><br><br>
+    <input type="password" name="password" placeholder="Create password" required><br><br>
+    <button type="submit">Register</button>
+  </form>
+
+  <p>Already have an account? <a href="/app/login.php">Login here</a></p>
+</body>
+</html>
+</div>
