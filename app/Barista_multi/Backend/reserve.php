@@ -21,7 +21,7 @@ $phone  = $_POST['phone'];
 $date   = $_POST['date'];
 $time   = $_POST['time'];
 $people = $_POST['people'];
-$msg    = $_POST['booking-form-message'] ?? '';
+$msg    = $_POST['comment'] ?? '';
 
 $stmt = $conn->prepare(
     "INSERT INTO reservations (name, phone, date, time, people, message)
