@@ -1,33 +1,18 @@
-## ▶️ How to Build & Run Barista Café Application
+# ☕ Barista Café – DevOps Project (Multi-Container Application)
 
-### 📌 Prerequisites
+This project demonstrates running a **multi-container web application** using **Docker Compose** on a local VM.
 
-Make sure you have these installed on your system:
-
-* Docker
-* Docker Compose
-* Git
-* Any browser (Chrome / Edge / Firefox)
-
-Check versions (optional):
-
-```bash
-docker --version
-docker compose version
-```
+The application includes:
+- Nginx (Reverse Proxy & Frontend)
+- PHP-Apache Backend
+- MySQL Database
+- User Login & Registration
+- Reservation Booking System
+- Admin Portal to view users & reservations
 
 ---
 
-## 📥 Step 1: Clone the Repository
-
-```bash
-git clone <your-repo-url>
-cd Barista_multi
-```
-
----
-
-## 📁 Step 2: Project Structure (Important)
+## Project Structure
 
 Make sure your folder looks like this:
 
@@ -40,51 +25,103 @@ app/
     ├── docker-compose.yml
 └── README.md
 ```
+---
+
+## Architecture (Local)
+
+Browser  
+→ Nginx  
+→ PHP Backend  
+→ MySQL Database  
 
 ---
 
-## 🐳 Step 3: Build & Start Containers
+## Prerequisites
 
-From the **root directory**:
+Ensure the following are installed on your system or VM:
+
+- Docker
+- Docker Compose
+- Git
+
+Verify installation:
+```bash
+docker --version
+docker compose version
+git --version
+````
+---
+
+## Steps to Run the Project
+
+### 1 Clone the Repository
 
 ```bash
-docker compose up -d --build
+git clone https://github.com/Xsuchi/demo.git
 ```
 
-What this does:
-
-* Builds PHP application image
-* Builds Nginx image
-* Starts MySQL
-* Initializes database automatically
-
----
-
-## 🔍 Step 4: Verify Containers
+### 2 Navigate to Project Directory
 
 ```bash
-docker ps
+cd demo/app/Barista_multi
+```
+---
+
+## 3 Docker Compose Commands
+
+### Build Docker Images
+
+```bash
+docker compose build
 ```
 
-You should see:
+### Start Containers (Detached Mode)
 
-* nginx container
-* php/app container
-* mysql container
+```bash
+docker compose up -d
+```
 
-All should be **running**.
+### Stop Containers
+
+```bash
+docker compose stop
+```
+
+### Start Stopped Containers
+
+```bash
+docker compose start
+```
+
+### Stop & Remove Containers and Networks
+
+```bash
+docker compose down
+```
+
+### Remove Everything (Containers, Images, Volumes)
+
+```bash
+docker compose down --rmi all --volumes
+```
+
+### Clean Entire Docker System (Optional)
+
+```bash
+docker system prune -a --volumes
+```
 
 ---
 
-## 🌐 Step 5: Access the Application
+##  Access the Application
 
-Open browser and go to:
+If running on a **VM**, get the VM IP:
 
+```bash
+ip addr show
 ```
-http://localhost:8085
-```
 
-(or)
+Open browser:
 
 ```
 http://<VM-IP>:8085
@@ -92,84 +129,83 @@ http://<VM-IP>:8085
 
 ---
 
-## 🔐 Default Admin Login
+## Application Login Details
+
+### Admin Login
 
 ```
 Username: admin
 Password: admin123
 ```
 
-> ⚠ Password is stored as a **bcrypt hash**, not plain text.
-
----
-
-## 🧑‍💻 Normal User Flow
-
-1. Open website
-2. Click **Create Account**
-3. Register a new user
-4. Login with new credentials
-5. Access dashboard
-6. Book a table
-
----
-
-## 👑 Admin Portal Access
-
-After logging in as **admin**, access:
-
-```
-http://localhost:8085/app/admin/
-```
-
 Admin can:
 
-* View registered users
-* View reservations
+* View all registered users
+* View all reservations
+
+### 👤 New User
+
+* Click **Create Account**
+* Register a new user
+* Login
+* Book table reservations
 
 ---
 
-## 🛑 Stop the Application
+## Database Access & Troubleshooting
+
+### Login to MySQL Container
 
 ```bash
-docker compose down
+docker exec -it mysql-db mysql -u root -p
+```
+
+Password:
+
+```
+rootpass
+```
+
+### Select Database
+
+```sql
+USE barista;
+```
+
+### View Users
+
+```sql
+SELECT id, username, password FROM users;
+```
+
+### View Reservations
+
+```sql
+SELECT * FROM reservations;
+```
+
+### Filter Reservations by Date
+
+```sql
+SELECT * FROM reservations
+WHERE date = '2025-01-20';
+```
+
+### Clear All Reservations
+
+```sql
+DELETE FROM reservations;
 ```
 
 ---
 
-## 🔁 Restart the Application
+## Project Purpose
 
-```bash
-docker compose up -d
-```
+This project is built for:
 
----
-
-## 🧹 Clean Rebuild (If Something Breaks)
-
-```bash
-docker compose down -v
-docker compose up -d --build
-```
-
-⚠ This will remove database data.
-
----
-
-## 🧠 Notes
-
-* Database is auto-created using `mysql-init/init.sql`
-* Sessions are managed by PHP
-* Nginx works as reverse proxy
-* No manual DB setup required
-
----
-
-## 🎯 Purpose of This Project
-
-* Practice DevOps workflows
-* Learn Docker & Docker Compose
-* Prepare for CI/CD pipelines
-* Deploy later to AWS / Kubernetes
+* Docker & Docker Compose practice
+* Multi-container application understanding
+* DevOps CI/CD pipeline testing
+* Migration readiness to Kubernetes
 
 ---
